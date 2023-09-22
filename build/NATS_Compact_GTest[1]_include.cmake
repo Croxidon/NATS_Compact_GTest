@@ -1,0 +1,5 @@
+if(EXISTS "/home/crox/Desktop/NATS_Compact_GTest/build/NATS_Compact_GTest[1]_tests.cmake")
+  include("/home/crox/Desktop/NATS_Compact_GTest/build/NATS_Compact_GTest[1]_tests.cmake")
+else()
+  add_test(NATS_Compact_GTest_NOT_BUILT NATS_Compact_GTest_NOT_BUILT)
+endif()

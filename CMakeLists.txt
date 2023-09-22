@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.16)
 project(NATS_Compact_GTest VERSION 1.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+find_package(Boost REQUIRED COMPONENTS thread chrono)
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -16,7 +18,7 @@ add_executable(
 )
 add_subdirectory(NATS_Compact_Test)
 
-target_link_libraries(NATS_Compact_GTest PUBLIC NATS_Compact_Test GTest::gtest_main)
+target_link_libraries(NATS_Compact_GTest PUBLIC NATS_Compact_Test GTest::gtest_main Boost::thread Boost::chrono)
 target_include_directories(NATS_Compact_GTest PUBLIC
                            "${PROJECT_BINARY_DIR}"
                              "${PROJECT_SOURCE_DIR}/NATS_Compact_Test"

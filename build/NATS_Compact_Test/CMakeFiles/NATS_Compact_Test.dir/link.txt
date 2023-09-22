@@ -1,0 +1,2 @@
+/usr/bin/ar qc libNATS_Compact_Test.a CMakeFiles/NATS_Compact_Test.dir/NATS_Compact_Test.cpp.o
+/usr/bin/ranlib libNATS_Compact_Test.a

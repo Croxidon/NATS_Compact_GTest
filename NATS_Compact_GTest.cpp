@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <boost/thread/thread.hpp>
 #include <boost/chrono/chrono.hpp>
-#include "NAST_Compact_Test/NATS_Compact_Test.h"
+#include "NATS_Compact_Test/NATS_Compact_Test.h"
 
 
 class NATS_GTest : public ::testing::Test {
