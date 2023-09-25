@@ -71,7 +71,7 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
         std::cout << "Received message count is:" << receivedMsgCount << "\n";
         std::cout << "in:" << subTimeElapsed<< "microseconds\n";
         
-        std::lock_guard<std::mutex> lock(mtx);
+      
 
         if (subTimeElapsed >= 995000)
         {

@@ -35,7 +35,7 @@ private:
     int64_t pubTimeStart{0};
     int64_t pubTimeFinish{0};
     int64_t pubTimeElapsed{0};
-    std::mutex mtx;
+ 
 };
 
 #endif

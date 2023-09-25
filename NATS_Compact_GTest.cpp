@@ -28,7 +28,7 @@ boost::thread subThread(&NATS_Compact_Test::SubscribingForMsg, &x);
 pubThread.join();
 subThread.join();
 
-std::lock_guard<std::mutex> lock(x.mtx);
+
     
 
  ASSERT_GE(x.receivedMsgCount, 1000);
