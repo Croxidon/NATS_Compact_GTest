@@ -3,6 +3,8 @@
 #include <chrono>
 #include <unistd.h>
 #include <mutex>
+#include <vector>
+#include <boost/thread/thread.hpp>
 extern "C"{
 #include <stdio.h>
 #include <nats/nats.h>
@@ -20,20 +22,32 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
 
 
  //Constructor
- NATS_Compact_Test::NATS_Compact_Test()
+ NATS_Compact_Test::NATS_Compact_Test(int a)
  {
-     s = natsOptions_Create(&opts);
-     s = natsConnection_ConnectTo(&conn, serverAdress);
-     if (s == NATS_OK)
-     {
+    int threadCount = a;
+    for (int i = 0; i < threadCount; i++)
+    {
+        receivedMsgCount.push_back(0);
+        subTimeStart.push_back(0);
+        subTimeFinish.push_back(0);
+        subTimeElapsed.push_back(0);
+        
+    }
+    
+    s = natsOptions_Create(&opts);
+    s = natsConnection_ConnectTo(&conn, serverAdress);
+    if (s == NATS_OK)
+    {
         std::cout << "Connection established.\n";
-     }
+    }
  }
      
  //Destroyer
  NATS_Compact_Test::~NATS_Compact_Test()
  {
-     natsSubscription_Destroy(sub);
+     natsSubscription_Destroy(sub0);
+     natsSubscription_Destroy(sub1);
+     natsSubscription_Destroy(sub2);
      natsConnection_Destroy(conn);
  }
 
@@ -47,6 +61,7 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
         if(s == NATS_OK) {
             s = natsConnection_PublishString(conn, "foo", "This is a test message.\n");
             messagesSent++;
+            
         };  
          pubTimeFinish = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
          pubTimeElapsed = pubTimeFinish - pubTimeStart;
@@ -59,25 +74,55 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
  }
 
  //Subscribing function
- void NATS_Compact_Test::SubscribingForMsg()
+ void NATS_Compact_Test::SubscribingForMsg(int threadNumber)
  {
-     if (s == NATS_OK)   {s = natsConnection_SubscribeTimeout(&sub, conn, "foo", 60000, onMsg, NULL);}
-      subTimeStart = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+     if (s == NATS_OK)   {
+        switch (threadNumber)
+        {
+        case 0:
+            s = natsConnection_SubscribeTimeout(&sub0, conn, "foo", 60000, onMsg, NULL);
+            break;
+            case1:
+            s = natsConnection_SubscribeTimeout(&sub1, conn, "foo", 60000, onMsg, NULL);
+            break;
+            case2:
+            s = natsConnection_SubscribeTimeout(&sub2, conn, "foo", 60000, onMsg, NULL);
+            break;
+        default:
+            break;
+        }
+        
+        }
+      subTimeStart[threadNumber] = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
      while (true)
      {
-        natsSubscription_GetDelivered(sub, &receivedMsgCount);
-        subTimeFinish = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-        subTimeElapsed = subTimeFinish - subTimeStart;
-        std::cout << "Received message count is:" << receivedMsgCount << "\n";
-        std::cout << "in:" << subTimeElapsed<< "microseconds\n";
+        switch (threadNumber)
+        {
+        case 0:
+           natsSubscription_GetDelivered(sub0, &receivedMsgCount[threadNumber]);
+            break;
+         case 1:
+           natsSubscription_GetDelivered(sub1, &receivedMsgCount[threadNumber]);
+            break;
+         case 2:
+           natsSubscription_GetDelivered(sub2, &receivedMsgCount[threadNumber]);
+            break;
+        
+        default:
+            break;
+        }
+        
+        subTimeFinish[threadNumber] = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+        subTimeElapsed[threadNumber] = subTimeFinish[threadNumber] - subTimeStart[threadNumber];
+        std::cout << "Received message count is:" << receivedMsgCount[threadNumber] << " for thread number" << threadNumber << " in:" << subTimeElapsed[threadNumber]<< "microseconds\n";
         
       
 
-        if (subTimeElapsed >= 995000)
+        if (subTimeElapsed[threadNumber] >= 995000)
         {
             break;
         }
-        else if (receivedMsgCount > 999)
+        else if (receivedMsgCount[threadNumber] > 999)
         {
             break;
         }
