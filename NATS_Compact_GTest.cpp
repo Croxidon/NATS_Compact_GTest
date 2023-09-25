@@ -33,12 +33,12 @@ subThread2.join();
 subThread3.join();
 
 
- ASSERT_GE(x.receivedMsgCount, 1000);
- ASSERT_LE(x.subTimeElapsed, 1000000);
-  ASSERT_GE(y.receivedMsgCount, 1000);
- ASSERT_LE(y.subTimeElapsed, 1000000);
-  ASSERT_GE(z.receivedMsgCount, 1000);
- ASSERT_LE(z.subTimeElapsed, 1000000);
+ASSERT_GE(x.receivedMsgCount, 1000);
+ASSERT_LE(x.subTimeElapsed, 1000000);
+ASSERT_GE(y.receivedMsgCount, 1000);
+ASSERT_LE(y.subTimeElapsed, 1000000);
+ASSERT_GE(z.receivedMsgCount, 1000);
+ASSERT_LE(z.subTimeElapsed, 1000000);
 }
 
 int main(int argc, char** argv) {
