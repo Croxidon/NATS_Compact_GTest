@@ -12,14 +12,13 @@ extern "C"{
 }
 
 static void
-onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
+onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
 {
     
 
     // Need to destroy the message!
-    natsMsg_Destroy(msg);
+    natsMsg_Destroy(msg0);
 }
-
 
  //Constructor
  NATS_Compact_Test::NATS_Compact_Test(int a)
@@ -34,11 +33,24 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
         
     }
     
-    s = natsOptions_Create(&opts);
-    s = natsConnection_ConnectTo(&conn, serverAdress);
-    if (s == NATS_OK)
+    s0 = natsOptions_Create(&opts0);
+    s0 = natsConnection_ConnectTo(&conn0, serverAdress);
+    s1 = natsOptions_Create(&opts1);
+    s1 = natsConnection_ConnectTo(&conn1, serverAdress);
+    s2 = natsOptions_Create(&opts2);
+    s2 = natsConnection_ConnectTo(&conn2, serverAdress);
+
+    if (s0 == NATS_OK)
     {
-        std::cout << "Connection established.\n";
+        std::cout << "Connection established s0.\n";
+    }
+     if (s1 == NATS_OK)
+    {
+        std::cout << "Connection established s1.\n";
+    }
+     if (s2 == NATS_OK)
+    {
+        std::cout << "Connection established s2.\n";
     }
  }
      
@@ -48,7 +60,9 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
      natsSubscription_Destroy(sub0);
      natsSubscription_Destroy(sub1);
      natsSubscription_Destroy(sub2);
-     natsConnection_Destroy(conn);
+     natsConnection_Destroy(conn0);
+     natsConnection_Destroy(conn1);
+     natsConnection_Destroy(conn2);
  }
 
  //Message publishing function
@@ -58,8 +72,8 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
 
     while (true)
     {
-        if(s == NATS_OK) {
-            s = natsConnection_PublishString(conn, "foo", "This is a test message.\n");
+        if(s0 == NATS_OK) {
+            s0 = natsConnection_PublishString(conn0, "foo", "This is a test message.\n");
             messagesSent++;
             
         };  
@@ -76,17 +90,17 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
  //Subscribing function
  void NATS_Compact_Test::SubscribingForMsg(int threadNumber)
  {
-     if (s == NATS_OK)   {
+     if (s0 == NATS_OK && s1==NATS_OK && s2==NATS_OK)   {
         switch (threadNumber)
         {
         case 0:
-            s = natsConnection_SubscribeTimeout(&sub0, conn, "foo", 60000, onMsg, NULL);
+            s0 = natsConnection_SubscribeTimeout(&sub0, conn0, "foo", 60000, onMsg, NULL);
             break;
             case1:
-            s = natsConnection_SubscribeTimeout(&sub1, conn, "foo", 60000, onMsg, NULL);
+            s1 = natsConnection_SubscribeTimeout(&sub1, conn1, "foo", 60000, onMsg, NULL);
             break;
             case2:
-            s = natsConnection_SubscribeTimeout(&sub2, conn, "foo", 60000, onMsg, NULL);
+            s2 = natsConnection_SubscribeTimeout(&sub2, conn2, "foo", 60000, onMsg, NULL);
             break;
         default:
             break;
