@@ -95,12 +95,25 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
         {
         case 0:
             s0 = natsConnection_SubscribeTimeout(&sub0, conn0, "foo", 60000, onMsg, NULL);
+            if (s0 == NATS_OK)
+            {
+                std::cout << "s0 subscribed.\n";
+            }
+            
             
             case1:
             s1 = natsConnection_SubscribeTimeout(&sub1, conn1, "foo", 60000, onMsg, NULL);
+             if (s1 == NATS_OK)
+            {
+                std::cout << "s1 subscribed.\n";
+            }
             
             case2:
             s2 = natsConnection_SubscribeTimeout(&sub2, conn2, "foo", 60000, onMsg, NULL);
+             if (s2 == NATS_OK)
+            {
+                std::cout << "s2 subscribed.\n";
+            }
             
         default:
             break;
@@ -114,13 +127,13 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
         {
         case 0:
            natsSubscription_GetDelivered(sub0, &receivedMsgCount[0]);
-            
+            break;
          case 1:
            natsSubscription_GetDelivered(sub1, &receivedMsgCount[1]);
-           
+           break;
          case 2:
            natsSubscription_GetDelivered(sub2, &receivedMsgCount[2]);
-            
+            break;
         
         default:
             break;
