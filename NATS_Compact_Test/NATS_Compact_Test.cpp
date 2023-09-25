@@ -113,13 +113,13 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
         switch (threadNumber)
         {
         case 0:
-           natsSubscription_GetDelivered(sub0, &receivedMsgCount[threadNumber]);
+           natsSubscription_GetDelivered(sub0, &receivedMsgCount[0]);
             break;
          case 1:
-           natsSubscription_GetDelivered(sub1, &receivedMsgCount[threadNumber]);
+           natsSubscription_GetDelivered(sub1, &receivedMsgCount[1]);
             break;
          case 2:
-           natsSubscription_GetDelivered(sub2, &receivedMsgCount[threadNumber]);
+           natsSubscription_GetDelivered(sub2, &receivedMsgCount[2]);
             break;
         
         default:
