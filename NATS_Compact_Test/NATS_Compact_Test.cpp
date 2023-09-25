@@ -95,13 +95,13 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
         {
         case 0:
             s0 = natsConnection_SubscribeTimeout(&sub0, conn0, "foo", 60000, onMsg, NULL);
-            break;
+            
             case1:
             s1 = natsConnection_SubscribeTimeout(&sub1, conn1, "foo", 60000, onMsg, NULL);
-            break;
+            
             case2:
             s2 = natsConnection_SubscribeTimeout(&sub2, conn2, "foo", 60000, onMsg, NULL);
-            break;
+            
         default:
             break;
         }
@@ -114,13 +114,13 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
         {
         case 0:
            natsSubscription_GetDelivered(sub0, &receivedMsgCount[0]);
-            break;
+            
          case 1:
            natsSubscription_GetDelivered(sub1, &receivedMsgCount[1]);
-            break;
+           
          case 2:
            natsSubscription_GetDelivered(sub2, &receivedMsgCount[2]);
-            break;
+            
         
         default:
             break;
