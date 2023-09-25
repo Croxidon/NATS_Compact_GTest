@@ -29,8 +29,6 @@ pubThread.join();
 subThread.join();
 
 
-    
-
  ASSERT_GE(x.receivedMsgCount, 1000);
  ASSERT_LE(x.subTimeElapsed, 1000000);
 }
