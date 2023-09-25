@@ -99,6 +99,7 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
             {
                 std::cout << "s0 subscribed.\n";
             }
+            break;
             
             
             case1:
@@ -107,6 +108,7 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
             {
                 std::cout << "s1 subscribed.\n";
             }
+            break;
             
             case2:
             s2 = natsConnection_SubscribeTimeout(&sub2, conn2, "foo", 60000, onMsg, NULL);
@@ -114,6 +116,7 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
             {
                 std::cout << "s2 subscribed.\n";
             }
+            break;
             
         default:
             break;
