@@ -110,7 +110,7 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
             break;
             
             
-            case1:
+            case 1:
             s1 = natsConnection_SubscribeTimeout(&sub1, conn1, "foo", 60000, onMsg, NULL);
              if (s1 == NATS_OK)
             {
@@ -118,7 +118,7 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
             }
             break;
             
-            case2:
+            case 2:
             s2 = natsConnection_SubscribeTimeout(&sub2, conn2, "foo", 60000, onMsg, NULL);
              if (s2 == NATS_OK)
             {
