@@ -20,11 +20,11 @@ public:
     
 
 private:
-    natsConnection *conn0, *conn1, *conn2;
-    natsOptions *opts0, *opts1, *opts2;
-    natsSubscription *sub0, *sub1, *sub2;
-    natsMsg *msg0, *msg1, *msg2;
-    natsStatus s0, s1, s2;
+    natsConnection *conn0, *conn1, *conn2 = NULL;
+    natsOptions *opts0, *opts1, *opts2 = NULL;
+    natsSubscription *sub0, *sub1, *sub2 = NULL;
+    natsMsg *msg0, *msg1, *msg2 = NULL;
+    natsStatus s0, s1, s2  = NATS_OK;
     char subject[256] = "foo";
     char serverAdress[256] = "localhost:4222";
     char message[256] = "This is a test message.\n";

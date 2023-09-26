@@ -34,11 +34,15 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
     }
     
     s0 = natsOptions_Create(&opts0);
-    s0 = natsConnection_ConnectTo(&conn0, serverAdress);
+    s0 = natsOptions_SetURL(opts0,serverAdress);
+    s0 = natsConnection_Connect(&conn0,opts0);
     s1 = natsOptions_Create(&opts1);
-    s1 = natsConnection_ConnectTo(&conn1, serverAdress);
+    s1 = natsOptions_SetURL(opts1, serverAdress);
+    s1 = natsConnection_Connect(&conn1,opts1);
     s2 = natsOptions_Create(&opts2);
-    s2 = natsConnection_ConnectTo(&conn2, serverAdress);
+    s2 = natsOptions_SetURL(opts2, serverAdress);
+    s2 = natsConnection_Connect(&conn2,opts2);
+   
 
     if (s0 == NATS_OK)
     {
@@ -90,7 +94,8 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
  //Subscribing function
  void NATS_Compact_Test::SubscribingForMsg(int threadNumber)
  {
-     if (s0 == NATS_OK && s1==NATS_OK && s2==NATS_OK)   {
+     if (s0 == NATS_OK && s1==NATS_OK && s2==NATS_OK)
+    {
         switch (threadNumber)
         {
         case 0:
@@ -122,7 +127,7 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
             break;
         }
         
-        }
+    }
       subTimeStart[threadNumber] = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
      while (true)
      {
