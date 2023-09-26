@@ -67,6 +67,9 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg0, void *closure)
      natsConnection_Destroy(conn0);
      natsConnection_Destroy(conn1);
      natsConnection_Destroy(conn2);
+     natsOptions_Destroy(opts0);
+     natsOptions_Destroy(opts1);
+     natsOptions_Destroy(opts2);
  }
 
  //Message publishing function
