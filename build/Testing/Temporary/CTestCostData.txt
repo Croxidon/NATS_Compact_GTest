@@ -1,2 +1,2 @@
-NATSGTest.TestPublishSubscribe 1 1.43758
+NATSGTest.TestPublishSubscribe 2 0.694966
 ---

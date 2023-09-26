@@ -30,6 +30,7 @@ private:
     char message[256] = "This is a test message.\n";
     public:
     std::vector<int64_t> receivedMsgCount;
+    std::vector<int64_t> droppedMsgCount;
     std::vector<int64_t> subTimeStart;
     std::vector<int64_t> subTimeFinish;
     std::vector<int64_t> subTimeElapsed;
