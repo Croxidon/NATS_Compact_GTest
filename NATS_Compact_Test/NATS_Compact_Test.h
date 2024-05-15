@@ -3,6 +3,7 @@
 
 #include <nats/nats.h>
 #include <mutex>
+#include <vector>
 
 static void
 onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure);
@@ -10,31 +11,34 @@ onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure);
 class NATS_Compact_Test
 {
 public:
-    NATS_Compact_Test();  
+    NATS_Compact_Test(int a);  
     ~NATS_Compact_Test(); 
 
     void PublishingMsg();
-    void SubscribingForMsg();
+    void SubscribingForMsg(int threadNumber);
 
     
 
 private:
-    natsConnection *conn;
-    natsOptions *opts;
-    natsSubscription *sub;
-    natsMsg *msg;
-    natsStatus s;
+    natsConnection *conn0, *conn1, *conn2 = NULL;
+    natsOptions *opts0, *opts1, *opts2 = NULL;
+    natsSubscription *sub0, *sub1, *sub2 = NULL;
+    natsMsg *msg0, *msg1, *msg2 = NULL;
+    natsStatus s0, s1, s2  = NATS_OK;
     char subject[256] = "foo";
     char serverAdress[256] = "localhost:4222";
     char message[256] = "This is a test message.\n";
     public:
-    int64_t receivedMsgCount{0};
-    int64_t subTimeStart{0};
-    int64_t subTimeFinish{0};
-    int64_t subTimeElapsed{0};
+    std::vector<int64_t> receivedMsgCount;
+    std::vector<int64_t> droppedMsgCount;
+    std::vector<int64_t> subTimeStart;
+    std::vector<int64_t> subTimeFinish;
+    std::vector<int64_t> subTimeElapsed;
     int64_t pubTimeStart{0};
     int64_t pubTimeFinish{0};
     int64_t pubTimeElapsed{0};
+    int threadCount;
+
  
 };
 
